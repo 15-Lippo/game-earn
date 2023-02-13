@@ -1,0 +1,158 @@
+
+{
+ "output public": true
+}
+
+{
+  "source": "/feedback/((?!general).*)",
+  "destination": "/api/feedback/general"
+}
+
+{
+  "source": "/feedback/:id",
+  "destination": "/api/feedback/:id"
+}
+{
+  "redirects": [{ "source": "/about", "destination": "/" }]
+}
+{
+  "buildCommand": "next build"
+}
+{
+  "framework": "nextjs"
+}
+{
+  "devCommand": "next dev"
+}
+{
+  "functions": {
+    "api/test.js": {
+      "memory": 3008,
+      "maxDuration": 30
+    },
+    "api/*.js": {
+      "memory": 3008,
+      "maxDuration": 30
+    }
+  }
+}
+{
+  "functions": {
+    "pages/blog/[hello].tsx": {
+      "memory": 1024
+    },
+    "src/pages/isr/**/*": {
+      "maxDuration": 10
+    }
+  }
+}
+{
+  "functions": {
+    "api/test.php": {
+      "runtime": "vercel-php@0.1.0"
+    }
+  }
+}
+{
+  "headers": [
+    {
+      "source": "/service-worker.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "query",
+          "key": "authorized"
+        }
+      ],
+      "headers": [
+        {
+          "key": "x-authorized",
+          "value": "true"
+        }
+      ]
+    }
+  ]
+}
+{
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./"
+}
+{
+  "installCommand": "npm install"
+}
+{
+  "outputDirectory": "build"
+}
+{
+  "public": true
+}
+{
+  "redirects": [
+    { "source": "/me", "destination": "/profile.html" },
+    { "source": "/user", "destination": "/api/user", "permanent": false },
+    {
+      "source": "/view-source",
+      "destination": "https://github.com/vercel/vercel"
+    },
+    {
+      "source": "/:path((?!uk/).*)",
+      "has": [
+        {
+          "type": "header",
+          "key": "x-vercel-ip-country",
+          "value": "GB"
+        }
+      ],
+      "destination": "/uk/:path*",
+      "permanent": false
+    }
+  ]
+}
+{
+  "regions": ["sfo1"]
+}
+{
+  "rewrites": [
+    { "source": "/about", "destination": "/about-our-company.html" },
+    { "source": "/resize/:width/:height", "destination": "/api/sharp" },
+    {
+      "source": "/proxy/:match*",
+      "destination": "https://example.com/:match*"
+    },
+    {
+      "source": "/:path((?!uk/).*)",
+      "has": [
+        {
+          "type": "header",
+          "key": "x-vercel-ip-country",
+          "value": "GB"
+        }
+      ],
+      "destination": "/uk/:path*"
+    }
+  ]
+}
